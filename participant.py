@@ -1,3 +1,5 @@
+import functools
+
 class Participant:
     
     def __init__(self, name, email, exclude):
@@ -33,3 +35,25 @@ class Participant:
         else:
             returnString += "None\n"
         return returnString
+
+
+    '''
+    The following methods allow objects to be sorted by the number of exceptions.
+    '''
+    def __lt__(self, other):
+        return len(self.exclude) < len(other.exclude)
+
+    def __gt__(self, other):
+        return len(self.exclude) > len(other.exclude)
+    
+    def __eq__(self, other):
+        return len(self.exclude) == len(other.exclude)
+
+    def __ne__(self, other):
+        return not self.__eq__(other)
+    
+    def __le__(self, other):
+        return self.__eq__(other) or self.__lt__(other)
+    
+    def __ge__(self, other):
+        return self.__eq__(other) or self.__gt__(other)

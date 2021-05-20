@@ -46,11 +46,18 @@ def importCsvFile(session):
         # for item in participants:
         #     print(item)
         
+        # The returned list is sorted by how many exclusions it has
+        participants.sort(reverse=True)
         return participants
+
+
+def stripAndLower(inputString):
+    return inputString.strip().lower()
 
 '''
 Matching algorithm that does not take exclusions into account.
 Randomises the order of particpants by creating a separate list of
+indices, randomising it, copying it, and shifting the copy over by 1.
 '''
 def simpleMatcher(participants):
     participantCount = len(participants)
