@@ -1,5 +1,6 @@
 import functools
 
+
 class Participant:
     
     def __init__(self, name, email, exclude):
@@ -24,6 +25,26 @@ class Participant:
         return stringOut
 
 
+    '''
+    Converts the list of names in self.exclude to a list of Participant objects
+    '''
+    def convertExcludeToObjects(self, participants):
+        if not self.exclude:
+            pass
+        else:
+            for i in range(len(self.exclude)):
+                nameString = self.exclude[i].strip().lower()
+                
+                for part in participants:
+                    objectName = part.name.strip().lower()
+                    if objectName == nameString:
+                        self.exclude[i] = part
+                        break
+
+                
+
+
+
 
     def __str__(self):
         returnString = "Name: {}\nemail: {}\nExclude:\n".format(self.name, self.email)
@@ -31,7 +52,10 @@ class Participant:
             returnString += "\tNone"
         elif self.exclude:
             for item in self.exclude:
-                returnString += "\t" + item + "\n"
+                if isinstance(item, str):
+                    returnString += "\t" + item + "\n"
+                else:
+                    returnString += "\t" + item.name + "\n"
         else:
             returnString += "None\n"
         return returnString

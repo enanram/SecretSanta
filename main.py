@@ -51,8 +51,9 @@ def importCsvFile(session):
         return participants
 
 
-def stripAndLower(inputString):
-    return inputString.strip().lower()
+
+
+
 
 '''
 Matching algorithm that does not take exclusions into account.
