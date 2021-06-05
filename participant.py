@@ -12,14 +12,14 @@ class Participant:
         else:
             self.exclude = []
         
-        self.match = None
+        self.giftee = None
     
 
     @property
     def nameWithMatch(self):
         stringOut = self.name
-        if self.match:
-            stringOut += " buys for {}".format(self.match.name)
+        if self.giftee:
+            stringOut += " buys for {}".format(self.giftee.name)
         else:
             stringOut += " (no match)"
         return stringOut
@@ -42,8 +42,6 @@ class Participant:
                         break
 
                 
-
-
 
 
     def __str__(self):

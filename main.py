@@ -28,12 +28,11 @@ def importCsvFile(session):
     with open("participants.csv", 'r') as csvFile:
         csvLines = csv.reader(csvFile)
         
-        # Skip the first line, which contains titles
-        next(csvLines)
-        
         participants = []
 
         for line in csvLines:
+            if line[0] in {"name", "Name", "NAME"}:
+                continue
             if len(line) > 2:
                 session.exclusions = True
             # Create Participant object for each line in the csv and add to the list
@@ -62,13 +61,13 @@ indices, randomising it, copying it, and shifting the copy over by 1.
 '''
 def simpleMatcher(participants):
     participantCount = len(participants)
-    givers = list(range(participantCount))
+    givers = participants.copy()
     random.shuffle(givers)
     receivers = givers.copy()
     receivers.insert(0, receivers.pop())
 
     for i in range(participantCount):
-        participants[givers[i]].match = participants[receivers[i]]
+        givers[i].giftee = receivers[i]
     
     for part in participants:
         print(part.nameWithMatch)
