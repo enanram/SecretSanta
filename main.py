@@ -41,6 +41,10 @@ def importCsvFile(session):
             exclude = [line[i] for i in range(2, len(line))]
             participants.append(Participant(name, email, exclude))
 
+        # initialise each participant's domain as all other participants
+        for part in participants:
+            part.domain = participants.copy()
+            part.removeSelf()
         
         # for item in participants:
         #     print(item)
@@ -51,13 +55,24 @@ def importCsvFile(session):
 
 
 
+def addAnyone(participants, giftees):
+    numRemaining = len(participants)
+            
+    # add a unique participant to giftees
+    while True:
+        randomIndex = random.randrange(numRemaining)
+        if participants[randomIndex] in giftees:
+            continue
+        else:
+            giftees.append(participants[randomIndex])
+            break
 
 
 
 '''
 Matching algorithm that does not take exclusions into account.
-Randomises the order of particpants by creating a separate list of
-indices, randomising it, copying it, and shifting the copy over by 1.
+Randomises the order of particpants by randomising the list, 
+copying it, and shifting the copy over by 1.
 '''
 def simpleMatcher(participants):
     participantCount = len(participants)
@@ -76,11 +91,28 @@ def simpleMatcher(participants):
 
 
 '''
-Matching algorithm that takes exclusions into account.
+Matching algorithm that takes exclusions into account. 
+Not yet tested - may need tweaking.
 '''
 def complexMatcher(participants):
-    pass
-
+    giftees = []
+    for index, part in enumerate(participants):
+        part.cullDomain()
+        if part.domain:            
+            for participant in part.domain:
+                if participant not in giftees:
+                    giftees.append(participant)
+                    break
+        elif len(giftees) != index + 1 or not part.domain:
+            numRemaining = len(participants)
+            # add a unique participant to giftees
+            while True:
+                randomIndex = random.randrange(numRemaining)
+                if participants[randomIndex] in giftees:
+                    continue
+                else:
+                    giftees.append(participants[randomIndex])
+                    break
 
 
 

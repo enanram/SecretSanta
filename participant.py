@@ -13,6 +13,9 @@ class Participant:
             self.exclude = []
         
         self.giftee = None
+
+        # The possible giftees. Will be populated in main.py
+        self.domain = []
     
 
     @property
@@ -24,6 +27,22 @@ class Participant:
             stringOut += " (no match)"
         return stringOut
 
+    '''
+    Removes the current object from its own domain
+    '''
+    def removeSelf(self):
+        for i in range(len(self.domain)):
+            if self.domain[i] == self:
+                self.domain.pop(i)
+                return
+
+    '''
+    Updates the domain to exclude objects in the exclude list.
+    '''
+    def cullDomain(self):
+        for i, part in enumerate(self.domain):
+            if part in self.exclude:
+                self.domain.pop(i)
 
     '''
     Converts the list of names in self.exclude to a list of Participant objects
