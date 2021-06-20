@@ -31,8 +31,8 @@ class Participant:
     Removes the current object from its own domain
     '''
     def removeSelf(self):
-        for i in range(len(self.domain)):
-            if self.domain[i] == self:
+        for i, part in enumerate(self.domain):
+            if part == self:
                 self.domain.pop(i)
                 return
 
